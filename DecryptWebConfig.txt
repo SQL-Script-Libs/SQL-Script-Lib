@@ -1,0 +1,2 @@
+-- WICHTIG: Vorher Datei kopieren oder Kopie Decrypten
+C:\AOSService\webroot\bin\Microsoft.Dynamics.AX.Framework.ConfigEncryptor.exe -decrypt C:\AOSService\webroot\web.config
