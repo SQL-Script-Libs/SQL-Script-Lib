@@ -1,22 +1,12 @@
-SELECT
-tables.NAME AS TableName,
-indexes.name as IndexName,
-sum(partitions.rows) as NumberOfRows,
-sum(allocation_units.total_pages) as TotalPages,
-sum(allocation_units.used_pages) as UsedPages,
-sum(allocation_units.data_pages) as DataPages,
-(sum(allocation_units.total_pages) * 8) / 1024 as TotalSizeMB,
-(sum(allocation_units.used_pages) * 8) / 1024 as UsedSizeMB,
-(sum(allocation_units.data_pages) * 8) / 1024 as DataSizeMB
-FROM
-sys.tables
-INNER JOIN     
-sys.indexes ON tables.OBJECT_ID = indexes.object_id
-INNER JOIN
-sys.partitions ON indexes.object_id = partitions.OBJECT_ID AND indexes.index_id = partitions.index_id
-INNER JOIN
-sys.allocation_units ON partitions.partition_id = allocation_units.container_id
-GROUP BY
-tables.NAME, indexes.object_id, indexes.index_id, indexes.name
-ORDER BY
-TotalSizeMB DESC
+select top 50 schema_name(tab.schema_id) + '.' + tab.name as [table], 
+    cast(sum(spc.used_pages * 8)/1024.00 as numeric(36, 2)) as used_mb,
+    cast(sum(spc.total_pages * 8)/1024.00 as numeric(36, 2)) as allocated_mb
+from sys.tables tab
+join sys.indexes ind 
+     on tab.object_id = ind.object_id
+join sys.partitions part 
+     on ind.object_id = part.object_id and ind.index_id = part.index_id
+join sys.allocation_units spc
+     on part.partition_id = spc.container_id
+group by schema_name(tab.schema_id) + '.' + tab.name
+order by sum(spc.used_pages) desc;
