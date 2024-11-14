@@ -1,0 +1,55 @@
+Tabellen truncaten:
+
+  Truncate table ECORESRELEASEDPRODUCTV2STAGING  
+  Truncate table GWSEXTREQINVENTTABLEADDITIONALMASTERDATASTAGING  
+  Truncate table SALESORDERLINEV2STAGING  
+  Truncate table SALESORDERHEADERV2STAGING  
+  Truncate table ECORESPRODUCTBARCODEASSOCIATIONSTAGING  
+  Truncate table ECORESPRODUCTCATEGORYSTAGING  
+  Truncate table Lacarchive  
+  Truncate table BATCHHISTORY  
+  Truncate table WMSWAREHOUSELOCATIONSTAGING  
+  Truncate table SALESPARMLINE  
+  Truncate table GWSPRICEDISCRESULT  
+  Truncate table INVENTONHANDSTORAGEREPORTLINE  
+  Truncate table SALESPARMTABLE  
+  Truncate table LACARCHIVEDATA  
+
+
+BacPac schnell downloaden: 
+  https://docs.microsoft.com/en-us/azure/storage/common/storage-use-azcopy-v10?toc=/azure/storage/files/toc.json#download-azcopy 
+  In der Asset Library auf das Backup gehen -> Generate SAS-Link 
+  AzCopy Verzeichnis öffnen -> Powershell als Admin öffnen 
+      .\azcopy copy "LINK" "Lokaler Pfad" 
+
+
+Github package für bacpac import:
+  https://github.com/d365collaborative/d365fo.tools 
+  https://github.com/d365collaborative/d365fo.tools/blob/development/docs/Import-D365Bacpac.md 
+      Invoke-D365InstallSqlPackage 
+
+
+Bacpac einspielen: 
+  Import-D365Bacpac -ImportModeTier1 -BacpacFile "J:\MSSQL_BACKUP\PreProdBackup.bacpac" -NewDatabaseName "ImportedDatabase" -DiagnosticFile "C:\Temp\ImportLog.txt"  
+  Wichtig: Jedesmal neuen Namen für Import DB geben 
+
+
+Datenbank switchen: 
+  Switch-D365ActiveDatabase -NewDatabaseName "ImportedDatabase" 
+
+
+Bei AutoDrop Fehler: 
+  https://github.com/d365collaborative/d365fo.tools/wiki/Repair-D365BacpacModelFile 
+  Bacpac als Archiv öffnen und model File herauskopieren 
+  Json Datei mit diesem Inhalt anlegen: 
+      https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/misc/RepairBacpac.Replace.json 
+  Repair-D365BacpacModelFile -Path I:\MSSQL_BACKUP\model.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'I:\MSSQL_BACKUP\RepairBacpac.Replace.Custom.json' 
+  Neue Checksum generieren
+      computeHash.ps1 ausführen und absoluten Pfad vom neuen model.xml angeben
+      Origin.xml auch aus zip entfernen 
+      Checksum mit der neu berechneten ersetzen
+  Altes XML im BacPac mit dem neuen ersetzen (7zip) 
+      .bacpac zu .zip umbenennen 
+      7z u file.zip path/file_to_update 
+          model.xml und origin.xml ersetzen
+      .zip wieder zu .bacpac umbenennen 
