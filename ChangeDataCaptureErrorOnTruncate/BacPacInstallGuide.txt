@@ -42,9 +42,14 @@ Bei AutoDrop Fehler:
   https://github.com/d365collaborative/d365fo.tools/wiki/Repair-D365BacpacModelFile 
   Bacpac als Archiv öffnen und model File herauskopieren 
   Json Datei mit diesem Inhalt anlegen: 
-    https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/misc/RepairBacpac.Replace.json 
+      https://github.com/d365collaborative/d365fo.tools/blob/master/d365fo.tools/internal/misc/RepairBacpac.Replace.json 
   Repair-D365BacpacModelFile -Path I:\MSSQL_BACKUP\model.xml -PathRepairSimple '' -PathRepairQualifier '' -PathRepairReplace 'I:\MSSQL_BACKUP\RepairBacpac.Replace.Custom.json' 
+  Neue Checksum generieren
+      computeHash.ps1 ausführen und absoluten Pfad vom neuen model.xml angeben
+      Origin.xml auch aus zip entfernen 
+      Checksum mit der neu berechneten ersetzen
   Altes XML im BacPac mit dem neuen ersetzen (7zip) 
-    .bacpac zu .zip umbenennen 
-    7z u file.zip path/file_to_update 
-    .zip wieder zu .bacpac umbenennen 
+      .bacpac zu .zip umbenennen 
+      7z u file.zip path/file_to_update 
+          model.xml und origin.xml ersetzen
+      .zip wieder zu .bacpac umbenennen 
