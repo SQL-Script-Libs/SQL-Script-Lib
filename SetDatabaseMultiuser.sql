@@ -22,7 +22,7 @@ end
 print 'Killing Process completed...' 
 GO
 
-**--Alter user mode** 
+--Alter user mode** 
 ALTER DATABASE AxDB SET MULTI_USER; 
 GO 
 print 'Alter Database Process completed...'
