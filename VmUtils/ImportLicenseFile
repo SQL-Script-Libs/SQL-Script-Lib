@@ -1,0 +1,1 @@
+J:\AOSService\PackagesLocalDirectory\Bin\Microsoft.Dynamics.AX.Deployment.Setup.exe --setupmode importlicensefile --metadatadir J:\AosService\PackagesLocalDirectory --bindir J:\AosService\PackagesLocalDirectory --sqlserver . --sqldatabase axdb --sqluser axdbadmin --sqlpwd ******** --licensefilename C:\Repos\SEED365\Tools\License\seefelder.net.txt
