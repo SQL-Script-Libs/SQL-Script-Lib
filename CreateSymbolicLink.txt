@@ -1,0 +1,6 @@
+j:
+cd J:\AOSService\PackagesLocalDirectory
+New-Item -ItemType Junction -Path "GwsEdi" -Target "C:\Repos\gevisEDI\Metadata\GwsEdi"
+New-Item -ItemType Junction -Path "GwsEdiAtl" -Target "C:\Repos\gevisEDI\Metadata\GwsEdiAtl"
+New-Item -ItemType Junction -Path "GwsEdiLegacy" -Target "C:\Repos\gevisEDI\Metadata\GwsEdiLegacy"
+
