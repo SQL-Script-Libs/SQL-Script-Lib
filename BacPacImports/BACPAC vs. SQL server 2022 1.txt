@@ -1,0 +1,20 @@
+1. BacPac File mit Script 'Remove-AutoDropFromBacpacModel-Step1.ps1 <BacPac Filename>' verarbeiten
+2. BapcPacModelUpdated.xml weg sichern.
+3. im BacPacModelUpdated.xml nach 'GLOBAL_TEMPORARY_TABLE_AUTO_DROP' suchen und komplettes Element entfernen.
+4. im BacPacModelUpdated.xml nach 'PARAMETER_SENSITIVE_PLAN_OPTIMIZATION' suchen und komplettes Element entfernen.
+5. Beide Werte kommen doppelt vor.
+6. Im Scriptfile 'Remove-AutoDropFromBacpacModel-Step2.ps1' den Datenbanknamen ändern sonst kann die Datenbank nicht erzeugt werden.
+7. BacPac file mit script 'Remove-AutoDropFromBacpacModel-Step2.ps1 <BacPac Filename>' importieren.
+8. Datenbank auswechseln mit 'Switch-D365ActiveDatabase -NewDatabaseName "DB Name aus Schritt 6"'
+9. DB Sync
+
+
+
+<Relationship Name="GenericDatabaseScopedConfigurationOptions">
+				<Entry>
+					<References Name="[GLOBAL_TEMPORARY_TABLE_AUTO_DROP]" />
+				</Entry>
+				<Entry>
+					<References Name="[PARAMETER_SENSITIVE_PLAN_OPTIMIZATION]" />
+				</Entry>
+			</Relationship>
